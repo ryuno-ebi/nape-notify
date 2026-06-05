@@ -1,0 +1,24 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #181b20;
+  color: #f5f7fb;
+}
+
+.settings {
+  padding: 24px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+p {
+  margin: 0;
+  color: #b8bec8;
+}

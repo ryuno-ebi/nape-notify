@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/renderer",
+    "rootDir": "src/renderer",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "types": [
+      "vite/client"
+    ]
+  },
+  "include": [
+    "src/renderer/**/*.ts",
+    "src/shared/**/*.ts"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "name": "nape-notify",
+  "version": "0.1.4",
+  "private": true,
+  "description": "Lightweight Windows tray notifier for Nape Pro layer and angle changes.",
+  "main": "dist/main/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on tcp:5173 && electron .\"",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "tsc -p tsconfig.main.json && node scripts/copy-static.mjs",
+    "build:renderer": "vite build",
+    "start": "electron .",
+    "typecheck": "tsc -p tsconfig.main.json --noEmit && tsc -p tsconfig.renderer.json --noEmit",
+    "verify:package": "npm run build && node scripts/verify-packaged-main.mjs",
+    "dist:dir": "npm run build && electron-builder --win dir",
+    "dist": "npm run build && electron-builder --win portable",
+    "clean": "node scripts/clean.mjs"
+  },
+  "keywords": [
+    "electron",
+    "nape-pro",
+    "keychron",
+    "launcher",
+    "tray"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "concurrently": "^9.1.2",
+    "electron": "^37.0.0",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "app.nape-notify",
+    "productName": "Nape Notify",
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "artifactName": "NapeNotify-${version}-portable.exe"
+    },
+    "portable": {
+      "artifactName": "NapeNotify-${version}-portable.exe"
+    }
+  }
+}
