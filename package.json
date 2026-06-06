@@ -1,6 +1,6 @@
 {
   "name": "nape-notify",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Lightweight Windows tray notifier for Nape Pro layer and angle changes.",
   "main": "dist/main/main.js",

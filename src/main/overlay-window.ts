@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url'
 import type { OverlayPayload } from '../shared/device-state.js'
 import { log } from './logger.js'
 
-const OVERLAY_WIDTH = 360
-const OVERLAY_HEIGHT = 72
+const OVERLAY_WIDTH = 460
+const OVERLAY_HEIGHT = 92
 const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export class OverlayWindow {
