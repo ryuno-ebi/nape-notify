@@ -46,6 +46,8 @@ export type StateProvider = {
 export type OverlayPayload = {
   layer?: LayerId
   angle?: DeviceAngle
+  deviceImageUrl?: string
+  deviceImageBaseAngle?: number
   title: string
   subtitle?: string
   durationMs: number

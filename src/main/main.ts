@@ -1,4 +1,7 @@
 import { app, Menu, Tray } from 'electron'
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { FallbackProvider } from './providers/fallback-provider.js'
 import { ChromeKeychronLauncherDomProvider } from './providers/keychron-launcher/chrome-keychron-launcher-dom-provider.js'
 import { MockProvider } from './providers/mock-provider.js'
@@ -9,6 +12,7 @@ import type { DeviceState, StateProvider } from '../shared/device-state.js'
 
 let tray: Tray | undefined
 let lastState: DeviceState | undefined
+let overlayConfig: OverlayConfig = {}
 
 const overlay = new OverlayWindow()
 const provider: StateProvider = new FallbackProvider(
@@ -18,6 +22,7 @@ const provider: StateProvider = new FallbackProvider(
 
 async function bootstrap(): Promise<void> {
   log('bootstrap:start', { packaged: app.isPackaged, version: app.getVersion() })
+  overlayConfig = readOverlayConfig()
   app.setName('Nape Notify')
   tray = new Tray(createNumberIcon('-', false))
   tray.setContextMenu(Menu.buildFromTemplate([
@@ -29,6 +34,7 @@ async function bootstrap(): Promise<void> {
           subtitle: 'Angle 225 deg',
           layer: lastState?.layer ?? 0,
           angle: lastState?.angle,
+          ...overlayConfig,
           durationMs: 1500
         })
       }
@@ -68,6 +74,7 @@ async function bootstrap(): Promise<void> {
         subtitle: state.angle === undefined ? undefined : `Angle ${state.angle} deg`,
         layer: state.layer,
         angle: state.angle,
+        ...overlayConfig,
         durationMs: 1500
       })
     }
@@ -90,3 +97,34 @@ app.on('before-quit', () => {
   log('app:before-quit')
   void provider.stop()
 })
+
+type OverlayConfig = {
+  deviceImageUrl?: string
+  deviceImageBaseAngle?: number
+}
+
+function readOverlayConfig(): OverlayConfig {
+  const configPath = join(app.getPath('userData'), 'config.json')
+  try {
+    if (!existsSync(configPath)) {
+      log('config:not-found', { configPath })
+      return {}
+    }
+    const config = JSON.parse(readFileSync(configPath, 'utf8')) as {
+      deviceImagePath?: unknown
+      deviceImageBaseAngle?: unknown
+    }
+    const result: OverlayConfig = {}
+    if (typeof config.deviceImagePath === 'string' && config.deviceImagePath.trim()) {
+      result.deviceImageUrl = pathToFileURL(config.deviceImagePath).toString()
+    }
+    if (typeof config.deviceImageBaseAngle === 'number' && Number.isFinite(config.deviceImageBaseAngle)) {
+      result.deviceImageBaseAngle = config.deviceImageBaseAngle
+    }
+    log('config:loaded', { configPath, hasDeviceImage: Boolean(result.deviceImageUrl), deviceImageBaseAngle: result.deviceImageBaseAngle })
+    return result
+  } catch (error) {
+    log('config:error', { configPath, error: error instanceof Error ? error.message : String(error) })
+    return {}
+  }
+}

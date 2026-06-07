@@ -10,7 +10,13 @@
     <main id="notice" class="notice" aria-live="polite">
       <div class="layer" id="layer">-</div>
       <div class="device-preview" aria-hidden="true">
-        <svg id="device" class="device" viewBox="0 0 96 96" role="img">
+        <img
+          id="device-image"
+          class="device-art device-image"
+          alt=""
+          hidden
+        />
+        <svg id="device-fallback" class="device-art device-fallback" viewBox="0 0 96 96" role="img">
           <path class="device-body" d="M31 11h38c10 0 18 8 18 18v39c0 10-8 18-18 18H31c-10 0-18-8-18-18V29c0-10 8-18 18-18Z" />
           <path class="device-top" d="M31 17h38c7 0 12 5 12 12v9H19v-9c0-7 5-12 12-12Z" />
           <circle class="device-ball" cx="48" cy="51" r="16" />

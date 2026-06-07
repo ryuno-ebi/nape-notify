@@ -61,18 +61,28 @@ body {
     rgba(255, 255, 255, 0.08);
 }
 
-.device {
-  width: 58px;
-  height: 58px;
-  overflow: visible;
+.device-art {
+  display: block;
   transform: rotate(var(--device-angle, 0deg));
   transform-origin: 50% 50%;
   transition: transform 160ms ease;
   filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.26));
 }
 
-.device.is-angle-unknown {
+.device-art.is-angle-unknown {
   opacity: 0.48;
+}
+
+.device-image {
+  width: auto;
+  height: 86px;
+  max-width: none;
+}
+
+.device-fallback {
+  width: 58px;
+  height: 58px;
+  overflow: visible;
 }
 
 .device-body {
