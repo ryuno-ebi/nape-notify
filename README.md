@@ -23,3 +23,7 @@ npm run dist
 ## Keychron Launcher DOM provider
 
 See [docs/keychron-launcher-dom-provider.md](docs/keychron-launcher-dom-provider.md).
+
+## Device image overlay
+
+The overlay can optionally use a local device image instead of the built-in SVG fallback. See [docs/device-image-config.md](docs/device-image-config.md).
